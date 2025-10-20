@@ -1,0 +1,87 @@
+# Module Metadata for Cardiac Calcium Scoring (NB10)
+# 冠脉钙化评分模块元数据
+#
+# This file follows the medical terminology naming convention from
+# MASTER_PROJECT_PLAN_SUPPLEMENT.md Section 1
+#
+# Author: Cardiac ML Research Team
+# Created: 2025-10-19
+# Last Updated: 2025-10-19
+
+# Core identifiers
+module_id: cardiac_calcium_scoring
+medical_name: Cardiac Calcium Scoring (AI-CAC)
+abbreviation: CCS
+notebook_ref: NB10
+
+# Classification
+category: quantification  # Options: preprocessing, segmentation, quantification, radiomics, analysis, utility
+status: available         # Options: available, in_development, requires_gpu, requires_license, deprecated
+version: 1.1.4
+
+# Descriptions
+description:
+  en: "AI-based coronary artery calcification detection and scoring using deep learning model. Automatically detects and quantifies coronary calcium from cardiac CT images."
+  zh: "基于AI的冠状动脉钙化自动检测与评分。使用深度学习模型自动检测和量化冠脉钙化，提供精确的钙化积分。"
+
+# Paths (relative to module directory)
+paths:
+  entry_point: cli/run_calcium_scoring.py
+  output_dir: cardiac_calcium
+  config_file: config/config.yaml
+
+# Dependencies (empty list - no dependencies for NB10)
+dependencies: []
+
+# Requirements
+requirements:
+  gpu_required: false
+  cpu_capable: true
+
+# Performance estimates (based on validation testing)
+performance:
+  estimated_time_cpu: 305    # seconds per patient (5 minutes)
+  estimated_time_gpu: 120    # estimated seconds per patient with GPU
+
+# Study information
+study:
+  sample_count: 195          # Number of samples in validation study
+  success_rate: 0.995        # 99.5% success rate (196/197)
+  validation_date: 2025-10-18
+
+# UI/UX
+ui:
+  icon: heart
+  tags:
+    - calcium
+    - coronary
+    - cac
+    - ai
+    - quantification
+    - cardiovascular
+
+# Metadata
+metadata:
+  authors:
+    - Cardiac ML Research Team
+  created_date: 2025-10-15
+  last_updated: 2025-10-19
+
+# Additional custom fields
+extra:
+  model_file: models/va_non_gated_ai_cac_model.pth
+  model_size_mb: 1200
+  output_format: csv
+  supported_input:
+    - DICOM
+    - NIfTI
+  features:
+    - Automatic coronary calcium detection
+    - AI-based calcium scoring
+    - Batch processing support
+    - CPU-optimized inference
+    - Interactive menu system
+    - Detailed logging
+  clinical_value: high
+  deployment_ready: true
+  hospital_tested: true

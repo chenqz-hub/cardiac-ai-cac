@@ -1,0 +1,75 @@
+Proprietary Software License
+
+Copyright (c) 2024 Chen QiZhi. All Rights Reserved.
+
+Software Copyright Registration: [Pending/Registration No.: 2024SR-XXXXXX]
+
+================================================================================
+
+This software and associated documentation files (the "Software") are
+proprietary and confidential.
+
+RESTRICTIONS:
+
+1. The Software is licensed, not sold. You may not copy, distribute,
+   modify, or create derivative works based on the Software without
+   explicit written permission from the copyright holder.
+
+2. Unauthorized copying, distribution, or modification of this Software
+   is strictly prohibited and will be prosecuted to the maximum extent
+   possible under the law.
+
+3. The Software is provided "AS IS", without warranty of any kind,
+   express or implied, including but not limited to the warranties of
+   merchantability, fitness for a particular purpose and noninfringement.
+
+4. In no event shall the copyright holder be liable for any claim,
+   damages or other liability, whether in an action of contract, tort
+   or otherwise, arising from, out of or in connection with the Software
+   or the use or other dealings in the Software.
+
+USAGE TERMS:
+
+- Research Use: Contact the corresponding author for academic collaboration
+- Commercial Use: Commercial licenses available upon request
+- Hospital Deployment: Requires valid license agreement
+
+CONTACT:
+
+For licensing inquiries:
+
+Dr. Chen QiZhi
+Department of Cardiology
+Shanghai XX Hospital
+Shanghai Jiao Tong University School of Medicine
+Email: chenxx@hospital.edu.cn
+GitHub: https://github.com/chendr
+
+================================================================================
+
+CONTRIBUTORS:
+
+This software includes contributions from multiple developers.
+See the GitHub repository for detailed contributor information:
+https://github.com/chendr/cardiac-ai-cac/graphs/contributors
+
+All contributors retain their moral rights to their contributions while
+transferring economic rights to the copyright holder as specified above.
+
+================================================================================
+
+THIRD-PARTY SOFTWARE:
+
+This software uses the following open-source libraries:
+
+- PyTorch (BSD-style license)
+- MONAI (Apache License 2.0)
+- SimpleITK (Apache License 2.0)
+- pydicom (MIT License)
+- NumPy (BSD License)
+
+Please see the respective licenses for terms and conditions.
+
+================================================================================
+
+Last Updated: 2024-10-19

@@ -1,0 +1,272 @@
+# Chinese (Simplified) Messages for Cardiac ML Research
+# 中文（简体）消息文件
+#
+# Author: Cardiac ML Research Team
+# Created: 2025-10-19
+#
+# NOTE: Per internationalization guidelines (WEEK7_PLUS_DEPLOYMENT_PLAN.md Section 0):
+# - Code/logs: ENGLISH ONLY (avoid encoding errors)
+# - UI menus: Chinese/English toggle (this file)
+# - Documentation: Chinese preferred
+
+# Common UI elements
+common:
+  yes: "是"
+  no: "否"
+  ok: "确定"
+  cancel: "取消"
+  back: "返回"
+  next: "下一步"
+  finish: "完成"
+  exit: "退出"
+  confirm: "确认"
+  error: "错误"
+  warning: "警告"
+  info: "信息"
+  success: "成功"
+  failed: "失败"
+  loading: "加载中..."
+  processing: "处理中..."
+  please_wait: "请稍候..."
+
+# Main menu
+main_menu:
+  title: "心脏影像多模态分析系统"
+  subtitle: "Cardiac ML Research - 主菜单"
+  welcome: "欢迎使用心脏影像多模态分析系统"
+  select_option: "请选择操作选项："
+  invalid_choice: "无效选择，请重新输入"
+
+  options:
+    preprocessing: "数据预处理"
+    analysis: "影像分析"
+    multimodal: "多模态整合分析"
+    tools: "工具与设置"
+    help: "帮助与文档"
+    exit: "退出系统"
+
+# Module categories
+categories:
+  preprocessing: "数据预处理"
+  segmentation: "影像分割"
+  quantification: "定量分析"
+  radiomics: "影像组学"
+  analysis: "多模态分析"
+  utility: "工具"
+
+# Module status
+status:
+  available: "可用"
+  in_development: "开发中"
+  requires_gpu: "需要GPU"
+  requires_license: "需要授权"
+  deprecated: "已弃用"
+
+# Hardware info
+hardware:
+  gpu_available: "GPU 可用"
+  gpu_not_available: "GPU 不可用（仅CPU模式）"
+  cuda_version: "CUDA 版本"
+  cpu_cores: "CPU 核心数"
+  memory: "内存"
+
+# Processing
+processing:
+  start: "开始处理"
+  stop: "停止处理"
+  pause: "暂停"
+  resume: "继续"
+  batch_mode: "批处理模式"
+  single_mode: "单例模式"
+
+  progress:
+    current: "当前进度"
+    total: "总计"
+    completed: "已完成"
+    remaining: "剩余"
+    eta: "预计剩余时间"
+    elapsed: "已用时间"
+
+  status:
+    initializing: "初始化中..."
+    loading_data: "加载数据中..."
+    processing: "处理中..."
+    saving_results: "保存结果中..."
+    completed: "处理完成"
+    failed: "处理失败"
+
+# Module specific
+modules:
+  cardiac_calcium_scoring:
+    name: "冠脉钙化评分"
+    description: "基于AI的冠状动脉钙化自动检测与评分"
+    menu:
+      title: "冠脉钙化评分 (AI-CAC)"
+      test_mode: "测试模式 (单例)"
+      pilot_mode: "试点模式 (限量)"
+      full_mode: "完整模式 (全部)"
+      config: "配置设置"
+
+    messages:
+      model_loading: "加载AI-CAC模型..."
+      dicom_reading: "读取DICOM文件..."
+      inference: "AI推理中..."
+      calculating_score: "计算钙化评分..."
+      saving_output: "保存结果..."
+
+  visceral_fat_analysis:
+    name: "内脏脂肪分析"
+    description: "L1椎体层面VAT/SAT脂肪定量分析"
+
+  pericardial_fat_quantification:
+    name: "心包脂肪定量"
+    description: "心包脂肪体积与密度定量分析"
+
+  calcification_scoring:
+    name: "钙化评分"
+    description: "主动脉及冠脉钙化传统评分"
+
+# Errors and warnings
+errors:
+  file_not_found: "文件未找到"
+  invalid_dicom: "无效的DICOM文件"
+  processing_failed: "处理失败"
+  insufficient_memory: "内存不足"
+  gpu_required: "此功能需要GPU支持"
+  license_invalid: "授权无效或已过期"
+  dependency_missing: "缺少依赖模块"
+
+  messages:
+    check_input: "请检查输入文件"
+    check_config: "请检查配置设置"
+    contact_support: "如问题持续，请联系技术支持"
+
+# Results
+results:
+  summary: "结果摘要"
+  detailed_report: "详细报告"
+  export_csv: "导出CSV"
+  export_pdf: "导出PDF"
+  save_success: "结果已保存"
+  save_failed: "保存失败"
+
+# Configuration
+config:
+  title: "系统配置"
+  general: "常规设置"
+  paths: "路径配置"
+  hardware: "硬件设置"
+  advanced: "高级选项"
+
+  language: "界面语言"
+  output_dir: "输出目录"
+  num_workers: "并行进程数"
+  use_gpu: "使用GPU"
+
+  save: "保存配置"
+  reset: "重置为默认"
+  load: "加载配置"
+
+# Help
+help:
+  title: "帮助与文档"
+  user_manual: "用户手册"
+  quick_start: "快速入门"
+  faq: "常见问题"
+  about: "关于"
+
+  version: "版本"
+  authors: "开发团队"
+  contact: "联系方式"
+
+# License
+license:
+  title: "授权管理"
+  status: "授权状态"
+  valid_until: "有效期至"
+  machine_id: "机器码"
+
+  status_valid: "授权有效"
+  status_invalid: "授权无效"
+  status_expired: "授权已过期"
+  status_trial: "试用版"
+
+  messages:
+    enter_key: "请输入授权密钥"
+    validation_success: "授权验证成功"
+    validation_failed: "授权验证失败"
+    renewal_needed: "授权即将到期，请续期"
+
+# Multimodal analysis
+multimodal:
+  title: "多模态整合分析"
+  description: "整合多个影像模态与临床数据的综合风险评估"
+
+  data_integration: "数据整合"
+  risk_scoring: "风险评分"
+  report_generation: "报告生成"
+
+  modules_required: "需要的模块"
+  modules_available: "可用模块"
+  modules_missing: "缺少模块"
+
+  integration_status: "整合状态"
+  patients_matched: "成功匹配患者数"
+  features_extracted: "提取特征数"
+
+  risk_score: "综合风险评分"
+  risk_level_low: "低风险"
+  risk_level_medium: "中风险"
+  risk_level_high: "高风险"
+
+# Time estimates
+time:
+  seconds: "秒"
+  minutes: "分钟"
+  hours: "小时"
+  estimated: "预计"
+  per_patient: "每患者"
+  total: "总计"
+
+# File operations
+files:
+  select_file: "选择文件"
+  select_directory: "选择目录"
+  browse: "浏览..."
+  upload: "上传"
+  download: "下载"
+  delete: "删除"
+
+  dicom_files: "DICOM文件"
+  nifti_files: "NIfTI文件"
+  csv_files: "CSV文件"
+  all_files: "所有文件"
+
+# Batch processing
+batch:
+  title: "批处理"
+  add_patients: "添加患者"
+  remove_patients: "移除患者"
+  clear_all: "清空列表"
+  start_batch: "开始批处理"
+
+  patient_list: "患者列表"
+  total_patients: "患者总数"
+  processed: "已处理"
+  failed: "失败"
+  skipped: "跳过"
+
+# Reports
+reports:
+  title: "分析报告"
+  generate: "生成报告"
+  preview: "预览"
+  export: "导出"
+
+  patient_info: "患者信息"
+  measurements: "测量结果"
+  risk_assessment: "风险评估"
+  recommendations: "临床建议"
+
+  report_generated: "报告已生成"
+  report_saved: "报告已保存"

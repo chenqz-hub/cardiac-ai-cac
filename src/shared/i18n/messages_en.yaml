@@ -1,0 +1,271 @@
+# English Messages for Cardiac ML Research
+#
+# Author: Cardiac ML Research Team
+# Created: 2025-10-19
+#
+# NOTE: Per internationalization guidelines (WEEK7_PLUS_DEPLOYMENT_PLAN.md Section 0):
+# - Code/logs: ENGLISH ONLY (avoid encoding errors)
+# - UI menus: Chinese/English toggle (this file)
+# - Documentation: Chinese preferred
+
+# Common UI elements
+common:
+  yes: "Yes"
+  no: "No"
+  ok: "OK"
+  cancel: "Cancel"
+  back: "Back"
+  next: "Next"
+  finish: "Finish"
+  exit: "Exit"
+  confirm: "Confirm"
+  error: "Error"
+  warning: "Warning"
+  info: "Info"
+  success: "Success"
+  failed: "Failed"
+  loading: "Loading..."
+  processing: "Processing..."
+  please_wait: "Please wait..."
+
+# Main menu
+main_menu:
+  title: "Cardiac Multi-Modal Analysis System"
+  subtitle: "Cardiac ML Research - Main Menu"
+  welcome: "Welcome to Cardiac Multi-Modal Analysis System"
+  select_option: "Please select an option:"
+  invalid_choice: "Invalid choice, please try again"
+
+  options:
+    preprocessing: "Data Preprocessing"
+    analysis: "Image Analysis"
+    multimodal: "Multi-Modal Integration"
+    tools: "Tools & Settings"
+    help: "Help & Documentation"
+    exit: "Exit System"
+
+# Module categories
+categories:
+  preprocessing: "Preprocessing"
+  segmentation: "Segmentation"
+  quantification: "Quantification"
+  radiomics: "Radiomics"
+  analysis: "Multi-Modal Analysis"
+  utility: "Utilities"
+
+# Module status
+status:
+  available: "Available"
+  in_development: "In Development"
+  requires_gpu: "Requires GPU"
+  requires_license: "Requires License"
+  deprecated: "Deprecated"
+
+# Hardware info
+hardware:
+  gpu_available: "GPU Available"
+  gpu_not_available: "GPU Not Available (CPU-only mode)"
+  cuda_version: "CUDA Version"
+  cpu_cores: "CPU Cores"
+  memory: "Memory"
+
+# Processing
+processing:
+  start: "Start Processing"
+  stop: "Stop"
+  pause: "Pause"
+  resume: "Resume"
+  batch_mode: "Batch Mode"
+  single_mode: "Single Mode"
+
+  progress:
+    current: "Current Progress"
+    total: "Total"
+    completed: "Completed"
+    remaining: "Remaining"
+    eta: "Estimated Time Remaining"
+    elapsed: "Elapsed Time"
+
+  status:
+    initializing: "Initializing..."
+    loading_data: "Loading data..."
+    processing: "Processing..."
+    saving_results: "Saving results..."
+    completed: "Processing completed"
+    failed: "Processing failed"
+
+# Module specific
+modules:
+  cardiac_calcium_scoring:
+    name: "Cardiac Calcium Scoring"
+    description: "AI-based coronary artery calcification detection and scoring"
+    menu:
+      title: "Cardiac Calcium Scoring (AI-CAC)"
+      test_mode: "Test Mode (Single)"
+      pilot_mode: "Pilot Mode (Limited)"
+      full_mode: "Full Mode (All)"
+      config: "Configuration"
+
+    messages:
+      model_loading: "Loading AI-CAC model..."
+      dicom_reading: "Reading DICOM files..."
+      inference: "Running AI inference..."
+      calculating_score: "Calculating calcium score..."
+      saving_output: "Saving results..."
+
+  visceral_fat_analysis:
+    name: "Visceral Fat Analysis"
+    description: "VAT/SAT quantification at L1 vertebral level"
+
+  pericardial_fat_quantification:
+    name: "Pericardial Fat Quantification"
+    description: "Pericardial fat volume and density quantification"
+
+  calcification_scoring:
+    name: "Calcification Scoring"
+    description: "Aortic and coronary calcification scoring"
+
+# Errors and warnings
+errors:
+  file_not_found: "File not found"
+  invalid_dicom: "Invalid DICOM file"
+  processing_failed: "Processing failed"
+  insufficient_memory: "Insufficient memory"
+  gpu_required: "This feature requires GPU support"
+  license_invalid: "License invalid or expired"
+  dependency_missing: "Missing dependency module"
+
+  messages:
+    check_input: "Please check input files"
+    check_config: "Please check configuration"
+    contact_support: "If the problem persists, please contact support"
+
+# Results
+results:
+  summary: "Results Summary"
+  detailed_report: "Detailed Report"
+  export_csv: "Export CSV"
+  export_pdf: "Export PDF"
+  save_success: "Results saved successfully"
+  save_failed: "Failed to save results"
+
+# Configuration
+config:
+  title: "System Configuration"
+  general: "General Settings"
+  paths: "Path Configuration"
+  hardware: "Hardware Settings"
+  advanced: "Advanced Options"
+
+  language: "Interface Language"
+  output_dir: "Output Directory"
+  num_workers: "Number of Workers"
+  use_gpu: "Use GPU"
+
+  save: "Save Configuration"
+  reset: "Reset to Default"
+  load: "Load Configuration"
+
+# Help
+help:
+  title: "Help & Documentation"
+  user_manual: "User Manual"
+  quick_start: "Quick Start"
+  faq: "FAQ"
+  about: "About"
+
+  version: "Version"
+  authors: "Development Team"
+  contact: "Contact"
+
+# License
+license:
+  title: "License Management"
+  status: "License Status"
+  valid_until: "Valid Until"
+  machine_id: "Machine ID"
+
+  status_valid: "License Valid"
+  status_invalid: "License Invalid"
+  status_expired: "License Expired"
+  status_trial: "Trial Version"
+
+  messages:
+    enter_key: "Please enter license key"
+    validation_success: "License validation successful"
+    validation_failed: "License validation failed"
+    renewal_needed: "License expiring soon, please renew"
+
+# Multimodal analysis
+multimodal:
+  title: "Multi-Modal Integration Analysis"
+  description: "Comprehensive risk assessment integrating multiple imaging modalities and clinical data"
+
+  data_integration: "Data Integration"
+  risk_scoring: "Risk Scoring"
+  report_generation: "Report Generation"
+
+  modules_required: "Required Modules"
+  modules_available: "Available Modules"
+  modules_missing: "Missing Modules"
+
+  integration_status: "Integration Status"
+  patients_matched: "Patients Matched"
+  features_extracted: "Features Extracted"
+
+  risk_score: "Comprehensive Risk Score"
+  risk_level_low: "Low Risk"
+  risk_level_medium: "Medium Risk"
+  risk_level_high: "High Risk"
+
+# Time estimates
+time:
+  seconds: "seconds"
+  minutes: "minutes"
+  hours: "hours"
+  estimated: "estimated"
+  per_patient: "per patient"
+  total: "total"
+
+# File operations
+files:
+  select_file: "Select File"
+  select_directory: "Select Directory"
+  browse: "Browse..."
+  upload: "Upload"
+  download: "Download"
+  delete: "Delete"
+
+  dicom_files: "DICOM Files"
+  nifti_files: "NIfTI Files"
+  csv_files: "CSV Files"
+  all_files: "All Files"
+
+# Batch processing
+batch:
+  title: "Batch Processing"
+  add_patients: "Add Patients"
+  remove_patients: "Remove Patients"
+  clear_all: "Clear All"
+  start_batch: "Start Batch"
+
+  patient_list: "Patient List"
+  total_patients: "Total Patients"
+  processed: "Processed"
+  failed: "Failed"
+  skipped: "Skipped"
+
+# Reports
+reports:
+  title: "Analysis Report"
+  generate: "Generate Report"
+  preview: "Preview"
+  export: "Export"
+
+  patient_info: "Patient Information"
+  measurements: "Measurements"
+  risk_assessment: "Risk Assessment"
+  recommendations: "Clinical Recommendations"
+
+  report_generated: "Report generated"
+  report_saved: "Report saved"

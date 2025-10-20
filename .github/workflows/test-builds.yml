@@ -1,0 +1,133 @@
+name: Test Package Builds
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  test-windows-structure:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Test Windows package structure
+        run: |
+          # Verify requirements file exists
+          if (!(Test-Path requirements/requirements-cpu.txt)) {
+            Write-Error "requirements-cpu.txt not found"
+            exit 1
+          }
+
+          # Test pip download (small subset)
+          pip download numpy==1.24.3 -d test-wheels/ --platform win_amd64 --only-binary=:all:
+
+          if ((Get-ChildItem test-wheels).Count -eq 0) {
+            Write-Error "Failed to download test wheel"
+            exit 1
+          }
+
+          Write-Output "✅ Windows package structure test passed"
+
+  test-linux-structure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Test Linux package structure
+        run: |
+          # Verify requirements file exists
+          if [ ! -f requirements/requirements-cpu.txt ]; then
+            echo "ERROR: requirements-cpu.txt not found"
+            exit 1
+          fi
+
+          # Test pip download (small subset)
+          pip download numpy==1.24.3 -d test-wheels/ --platform manylinux2014_x86_64 --only-binary=:all:
+
+          if [ $(ls -1 test-wheels | wc -l) -eq 0 ]; then
+            echo "ERROR: Failed to download test wheel"
+            exit 1
+          fi
+
+          echo "✅ Linux package structure test passed"
+
+  test-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test shell script syntax
+        run: |
+          # Check if any .sh files exist in the repo
+          if [ -d scripts ]; then
+            for script in scripts/*.sh; do
+              if [ -f "$script" ]; then
+                echo "Checking $script..."
+                bash -n "$script"
+              fi
+            done
+          fi
+
+          echo "✅ Shell script syntax check passed"
+
+  verify-documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Verify required documentation
+        run: |
+          REQUIRED_DOCS=(
+            "README.md"
+            "README_CN.md"
+            "CHANGELOG.md"
+          )
+
+          MISSING=()
+          for doc in "${REQUIRED_DOCS[@]}"; do
+            if [ ! -f "$doc" ]; then
+              MISSING+=("$doc")
+            fi
+          done
+
+          if [ ${#MISSING[@]} -ne 0 ]; then
+            echo "ERROR: Missing required documentation files:"
+            printf '%s\n' "${MISSING[@]}"
+            exit 1
+          fi
+
+          echo "✅ All required documentation files present"
+
+      - name: Check for placeholder text
+        run: |
+          # Check if USERNAME placeholder is still in README
+          if grep -q "USERNAME" README.md; then
+            echo "WARNING: README.md still contains USERNAME placeholder"
+            echo "Please replace USERNAME with your GitHub username"
+            exit 1
+          fi
+
+          if grep -q "your-email@example.com" README.md; then
+            echo "WARNING: README.md still contains email placeholder"
+            echo "Please replace with your actual email"
+            exit 1
+          fi
+
+          echo "✅ No placeholder text found"

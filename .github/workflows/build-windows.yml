@@ -1,0 +1,278 @@
+name: Build Windows Package
+
+on:
+  workflow_dispatch:  # Manual trigger for testing
+    inputs:
+      version:
+        description: 'Version to build (e.g., v1.1.4)'
+        required: false
+        default: 'manual'
+  push:
+    tags:
+      - 'v*.*.*'  # Trigger on version tags
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Get version
+        id: version
+        shell: bash
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+          elif [[ "${{ github.event.inputs.version }}" != "" ]]; then
+            VERSION=${{ github.event.inputs.version }}
+          else
+            VERSION="manual-$(date +%Y%m%d-%H%M%S)"
+          fi
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools wheel
+
+      - name: Download Python dependencies for Windows
+        run: |
+          New-Item -ItemType Directory -Force -Path wheels
+          pip download -r requirements/requirements-cpu.txt -d wheels/ --platform win_amd64 --only-binary=:all:
+
+      - name: Download AI-CAC model
+        run: |
+          New-Item -ItemType Directory -Force -Path models
+          pip install gdown
+          gdown 1uD12kphnWlJ5R6K-mDQnxS8LjYhPGSfm -O models/va_non_gated_ai_cac_model.pth
+
+      - name: Verify model download
+        run: |
+          if (!(Test-Path models/va_non_gated_ai_cac_model.pth)) {
+            Write-Error "Model file not found!"
+            exit 1
+          }
+          $size = (Get-Item models/va_non_gated_ai_cac_model.pth).Length / 1MB
+          Write-Output "Model size: $size MB"
+
+      - name: Create package structure
+        run: |
+          New-Item -ItemType Directory -Force -Path package/cardiac-ai-cac
+
+          # Copy source code
+          Copy-Item -Recurse src/* package/cardiac-ai-cac/
+
+          # Copy dependencies
+          Copy-Item -Recurse wheels package/cardiac-ai-cac/dependencies
+
+          # Copy model
+          New-Item -ItemType Directory -Force -Path package/cardiac-ai-cac/models
+          Copy-Item models/va_non_gated_ai_cac_model.pth package/cardiac-ai-cac/models/
+
+          # Copy documentation
+          Copy-Item README.md package/cardiac-ai-cac/
+          Copy-Item README_CN.md package/cardiac-ai-cac/
+          Copy-Item CHANGELOG.md package/cardiac-ai-cac/
+          Copy-Item LICENSE package/cardiac-ai-cac/ -ErrorAction SilentlyContinue
+
+          # Copy requirements
+          New-Item -ItemType Directory -Force -Path package/cardiac-ai-cac/requirements
+          Copy-Item requirements/*.txt package/cardiac-ai-cac/requirements/
+
+      - name: Create installation scripts
+        run: |
+          # Create install.bat
+          @"
+          @echo off
+          echo ========================================
+          echo Cardiac AI-CAC Installation (Windows)
+          echo ========================================
+          echo.
+
+          echo [1/5] Checking Python installation...
+          python --version >nul 2>&1
+          if errorlevel 1 (
+              echo ERROR: Python not found! Please install Python 3.8-3.12
+              echo Download from: https://www.python.org/downloads/
+              pause
+              exit /b 1
+          )
+          python --version
+
+          echo.
+          echo [2/5] Creating virtual environment...
+          python -m venv venv
+          if errorlevel 1 (
+              echo ERROR: Failed to create virtual environment
+              pause
+              exit /b 1
+          )
+
+          echo.
+          echo [3/5] Activating virtual environment...
+          call venv\Scripts\activate.bat
+
+          echo.
+          echo [4/5] Installing dependencies from local wheels...
+          python -m pip install --upgrade pip
+          pip install --no-index --find-links=dependencies -r requirements\requirements-cpu.txt
+          if errorlevel 1 (
+              echo ERROR: Failed to install dependencies
+              pause
+              exit /b 1
+          )
+
+          echo.
+          echo [5/5] Verifying installation...
+          python -c "import torch; import monai; import SimpleITK; print('All core packages imported successfully!')"
+          if errorlevel 1 (
+              echo WARNING: Some packages may not be properly installed
+          )
+
+          echo.
+          echo ========================================
+          echo Installation Complete!
+          echo ========================================
+          echo.
+          echo To start the program:
+          echo   1. Run: cardiac-ai-cac.bat
+          echo   OR
+          echo   2. Double-click: cardiac-ai-cac.bat
+          echo.
+          pause
+          "@ | Out-File -Encoding ASCII -FilePath package/cardiac-ai-cac/install.bat
+
+          # Create cardiac-ai-cac.bat
+          @"
+          @echo off
+          echo Starting Cardiac AI-CAC...
+          call venv\Scripts\activate.bat
+          python src/cardiac_calcium_scoring/cli/menu.py
+          pause
+          "@ | Out-File -Encoding ASCII -FilePath package/cardiac-ai-cac/cardiac-ai-cac.bat
+
+      - name: Create uninstall script
+        run: |
+          @"
+          @echo off
+          echo Uninstalling Cardiac AI-CAC...
+          echo.
+          echo This will remove the virtual environment.
+          echo Source code and results will be preserved.
+          echo.
+          choice /C YN /M "Continue with uninstall"
+          if errorlevel 2 exit /b 0
+
+          if exist venv (
+              echo Removing virtual environment...
+              rmdir /S /Q venv
+              echo Done!
+          ) else (
+              echo No virtual environment found.
+          )
+          echo.
+          echo Uninstall complete.
+          pause
+          "@ | Out-File -Encoding ASCII -FilePath package/cardiac-ai-cac/uninstall.bat
+
+      - name: Generate checksums
+        run: |
+          cd package/cardiac-ai-cac
+          Get-ChildItem -Recurse -File | Get-FileHash -Algorithm SHA256 | Select-Object Hash, Path | Export-Csv -Path SHA256SUMS.csv -NoTypeInformation
+
+      - name: Compress package
+        run: |
+          cd package
+          Compress-Archive -Path cardiac-ai-cac -DestinationPath cardiac-ai-cac-windows-${{ steps.version.outputs.VERSION }}.zip -CompressionLevel Optimal
+
+      - name: Generate package info
+        run: |
+          cd package
+          $size = (Get-Item cardiac-ai-cac-windows-${{ steps.version.outputs.VERSION }}.zip).Length / 1MB
+          @"
+          Package: cardiac-ai-cac-windows-${{ steps.version.outputs.VERSION }}.zip
+          Platform: Windows 10/11
+          Size: $([math]::Round($size, 2)) MB
+          Python: 3.10+
+          Build Date: $(Get-Date -Format "yyyy-MM-dd HH:mm:ss UTC")
+          Build Runner: windows-latest (GitHub Actions)
+
+          Installation:
+          1. Extract ZIP file
+          2. Run install.bat
+          3. Run cardiac-ai-cac.bat
+
+          Requirements:
+          - Windows 10/11
+          - Python 3.8-3.12
+          - 8GB RAM (16GB recommended)
+          - 4+ CPU cores (8+ recommended)
+          "@ | Out-File -FilePath PACKAGE_INFO.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-package-${{ steps.version.outputs.VERSION }}
+          path: |
+            package/*.zip
+            package/PACKAGE_INFO.txt
+          retention-days: 90
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            package/*.zip
+            package/PACKAGE_INFO.txt
+          body: |
+            ## Cardiac AI-CAC ${{ steps.version.outputs.VERSION }} - Windows Package
+
+            ### Installation
+
+            1. Download `cardiac-ai-cac-windows-${{ steps.version.outputs.VERSION }}.zip`
+            2. Extract to your preferred location
+            3. Run `install.bat` (right-click → Run as Administrator recommended)
+            4. After installation, run `cardiac-ai-cac.bat` to start
+
+            ### System Requirements
+
+            - **OS**: Windows 10/11 (64-bit)
+            - **CPU**: 4+ cores (8+ recommended)
+            - **RAM**: 8GB minimum (16GB recommended)
+            - **Disk**: 3GB free space
+            - **Python**: 3.8-3.12 (automatically installed in virtual environment)
+
+            ### What's Included
+
+            - Complete offline installation package
+            - All Python dependencies (no internet required after download)
+            - AI-CAC model (1.8GB)
+            - English and Chinese documentation
+            - Installation and startup scripts
+
+            ### Quick Start
+
+            ```cmd
+            # Extract package
+            # Run install.bat
+            # Run cardiac-ai-cac.bat
+            ```
+
+            See [README.md](README.md) for detailed documentation.
+
+            ### Support
+
+            - 📖 [User Manual](docs/user-manual.md)
+            - 🐛 [Report Issues](https://github.com/${{ github.repository }}/issues)
+            - 💬 [Discussions](https://github.com/${{ github.repository }}/discussions)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

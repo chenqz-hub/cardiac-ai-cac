@@ -1,0 +1,61 @@
+# Windows Path Configuration Examples
+# Common Windows path patterns for Chinese users
+
+# ============================================================
+# Example 1: Desktop Location (典型桌面位置)
+# ============================================================
+example_desktop:
+  data_dir: "C:/Users/Doctor/Desktop/cardiac_data/dicom"
+  output_dir: "C:/Users/Doctor/Desktop/cardiac_data/results"
+  model_path: "C:/Users/Doctor/Desktop/nb10_tool/models/va_non_gated_ai_cac_model.pth"
+
+# ============================================================
+# Example 2: D Drive Organization (D盘组织方式)
+# ============================================================
+example_d_drive:
+  data_dir: "D:/Medical_Research/DICOM_Data"
+  output_dir: "D:/Medical_Research/Results"
+  model_path: "D:/Medical_Research/Models/ai_cac_model.pth"
+
+# ============================================================
+# Example 3: External Drive (外接硬盘)
+# ============================================================
+example_external:
+  data_dir: "E:/Research_Backup/dicom_original"
+  output_dir: "E:/Research_Backup/analysis_results"
+  model_path: "./models/va_non_gated_ai_cac_model.pth"  # Relative to tool
+
+# ============================================================
+# Example 4: Network Share (网络共享)
+# ============================================================
+example_network:
+  data_dir: "//ServerName/MedicalData/DICOM"
+  output_dir: "//ServerName/MedicalData/Results"
+  model_path: "./models/va_non_gated_ai_cac_model.pth"
+
+# ============================================================
+# Example 5: Chinese Path Support (中文路径支持)
+# ============================================================
+example_chinese_path:
+  # Windows supports Chinese paths, ensure UTF-8 encoding
+  data_dir: "D:/医学研究/心脏影像数据"
+  output_dir: "D:/医学研究/分析结果"
+  model_path: "./models/va_non_gated_ai_cac_model.pth"
+
+# ============================================================
+# Path Best Practices
+# ============================================================
+# 1. Use forward slash (/) instead of backslash (\) for cross-platform
+# 2. Avoid spaces in paths (use underscore _ instead)
+# 3. Use relative paths for models and cache when possible
+# 4. Absolute paths for data and output directories
+# 5. Chinese paths supported but English recommended for stability
+
+# ============================================================
+# Path Format Notes
+# ============================================================
+# Correct:   "D:/data/dicom"
+# Correct:   "D:\\data\\dicom"  (escaped backslash)
+# Wrong:     "D:\data\dicom"     (unescaped backslash)
+# Correct:   "./models/model.pth" (relative path)
+# Wrong:     ".\\models\\model.pth" (use forward slash)

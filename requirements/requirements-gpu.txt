@@ -1,0 +1,40 @@
+# NB10 Windows Tool - GPU Version Dependencies
+# For machines with NVIDIA GPU (CUDA 12.x)
+# Python 3.10 required
+
+# Include base requirements
+-r requirements.txt
+
+# GPU-specific PyTorch (with CUDA 12.1 support)
+# Note: PyTorch 2.1.0 no longer available, using 2.2.0
+--extra-index-url https://download.pytorch.org/whl/cu121
+torch==2.2.0+cu121
+torchvision==0.17.0+cu121
+
+# CUDA Runtime (Optional, usually included with NVIDIA drivers)
+# nvidia-cublas-cu12
+# nvidia-cuda-runtime-cu12
+
+# Chinese Mirror (alternative mirrors for China)
+# -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+# Installation Notes:
+# 1. Check CUDA version first:
+#    nvidia-smi
+#    (Should show CUDA Version: 12.x)
+#
+# 2. Install in virtual environment:
+#    python -m venv venv
+#    venv\Scripts\activate
+#    pip install -r requirements_gpu.txt
+#
+# 3. Verify GPU detection:
+#    python scripts/test_gpu.py
+#
+# 4. Offline installation:
+#    See deployment/offline_wheels/README.md
+#
+# GPU Memory Requirements:
+# - Minimum: 4GB (tight, may OOM)
+# - Recommended: 6GB+ (RTX 2060 or better)
+# - Optimal: 8GB+ (RTX 3060 or better)

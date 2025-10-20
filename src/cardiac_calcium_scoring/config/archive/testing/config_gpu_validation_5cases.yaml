@@ -1,0 +1,59 @@
+# NB10 GPU Validation Test (5 cases)
+# Purpose: Test resume functionality with complete CSV
+
+paths:
+  data_dir: "/home/wuxia/projects/family_management_hub/members/wife/medical_research/cardiac_function_extraction/data/ct_images/ct_images_dicom/chd"
+  model_path: "./models/va_non_gated_ai_cac_model.pth"
+  output_dir: "./output/gpu_validation/run1"  # Same output dir to test resume
+  cache_dir: "./data/cache/gpu_validation"
+  log_dir: "./logs"
+
+processing:
+  mode: "pilot"
+  pilot_limit: 5  # Increase to 5 to test resume
+  device: "cuda"
+  batch_size: 1
+  enable_resume: true
+  slice_thickness_min: 4.0
+  slice_thickness_max: 6.0
+
+performance:
+  gpu_memory_fraction: 0.9
+  clear_cache_interval: 5
+  num_workers: 2
+  pin_memory: true
+
+output:
+  csv_encoding: "utf-8-sig"
+  save_cache: true
+  generate_report: true
+  generate_plots: false
+  figure_dpi: 300
+
+logging:
+  level: "INFO"
+  log_to_file: true
+  log_to_console: true
+  max_file_size: 10
+  backup_count: 3
+
+advanced:
+  verify_model_checksum: false
+  model_checksum: ""
+  use_mixed_precision: false
+  random_seed: 42
+
+clinical:
+  risk_thresholds:
+    very_low: 0
+    low: 1
+    moderate: 101
+    high: 401
+  report_zero_calcium: true
+  flag_high_risk: true
+
+localization:
+  language: "zh_CN"
+  report_language: "chinese"
+  date_format: "%Y-%m-%d"
+  time_format: "%H:%M:%S"

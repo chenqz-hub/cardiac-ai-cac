@@ -1,0 +1,157 @@
+# NB10 AI-CAC Configuration Template
+# Copy this file to config.yaml and modify according to your environment
+
+# ============================================================
+# Path Configuration
+# ============================================================
+paths:
+  # DICOM data directory (containing patient subdirectories)
+  # Normal组数据路径
+  data_dir: "/home/wuxia/projects/family_management_hub/members/wife/medical_research/cardiac_function_extraction/data/ct_images/ct_images_dicom/normal"
+
+  # AI-CAC model file path
+  model_path: "./models/va_non_gated_ai_cac_model.pth"
+
+  # Output directory for results
+  output_dir: "./output"
+
+  # Cache directory for scan results
+  cache_dir: "./data/cache"
+
+  # Log directory
+  log_dir: "./logs"
+
+# ============================================================
+# Processing Configuration
+# ============================================================
+processing:
+  # Processing mode: "pilot" (10 cases) or "full" (all cases)
+  # Week 6 Full Dataset Testing: Process all Normal group patients (97 cases)
+  mode: "full"
+
+  # Number of cases for pilot mode
+  pilot_limit: 1
+
+  # Device: "cuda" (GPU) or "auto" (automatic detection)
+  device: "auto"
+
+  # Batch size (1 recommended for most cases)
+  batch_size: 1
+
+  # Enable resume from previous run
+  enable_resume: true
+
+  # Slice thickness filter (mm)
+  slice_thickness_min: 4.0
+  slice_thickness_max: 6.0
+
+# ============================================================
+# Performance Configuration
+# ============================================================
+performance:
+  # GPU memory management
+  gpu_memory_fraction: 0.9  # Use 90% of available GPU memory
+
+  # Clear GPU cache every N slices (reduce for 6GB GPU)
+  clear_cache_interval: 5
+
+  # Number of workers for data loading (0 = single thread)
+  num_workers: 0
+
+  # Pin memory for faster GPU transfer
+  pin_memory: true
+
+# ============================================================
+# Output Configuration
+# ============================================================
+output:
+  # CSV output format
+  csv_encoding: "utf-8-sig"  # Excel-friendly encoding
+
+  # Save intermediate results
+  save_cache: true
+
+  # Generate statistical report
+  generate_report: true
+
+  # Generate visualization plots
+  generate_plots: true
+
+  # Figure DPI for saved plots
+  figure_dpi: 300
+
+# ============================================================
+# Logging Configuration
+# ============================================================
+logging:
+  # Log level: "DEBUG", "INFO", "WARNING", "ERROR"
+  level: "INFO"
+
+  # Log to file
+  log_to_file: true
+
+  # Log to console
+  log_to_console: true
+
+  # Log file max size (MB)
+  max_file_size: 10
+
+  # Number of backup log files
+  backup_count: 3
+
+# ============================================================
+# Advanced Configuration
+# ============================================================
+advanced:
+  # Verify model checksum on load
+  verify_model_checksum: true
+
+  # Model checksum (SHA256)
+  model_checksum: ""  # Auto-calculated if empty
+
+  # Use mixed precision (faster, less accurate)
+  use_mixed_precision: false
+
+  # Random seed for reproducibility
+  random_seed: 42
+
+# ============================================================
+# Clinical Configuration
+# ============================================================
+clinical:
+  # Risk stratification thresholds (Agatston score)
+  risk_thresholds:
+    very_low: 0
+    low: 1
+    moderate: 101
+    high: 401
+
+  # Zero calcium reporting
+  report_zero_calcium: true
+
+  # High-risk case flagging (Agatston > 1000)
+  flag_high_risk: true
+
+# ============================================================
+# Language and Localization
+# ============================================================
+localization:
+  # Interface language: "zh_CN" or "en_US"
+  language: "zh_CN"
+
+  # Report language: "chinese" or "english"
+  report_language: "chinese"
+
+  # Date format
+  date_format: "%Y-%m-%d"
+
+  # Time format
+  time_format: "%H:%M:%S"
+
+# ============================================================
+# Notes
+# ============================================================
+# - Windows paths use forward slash (/) or escaped backslash (\\)
+# - Relative paths are relative to nb10_windows/ directory
+# - Model download: python deployment/download_models.py
+# - Validate config: python scripts/validate_config.py config/config.yaml

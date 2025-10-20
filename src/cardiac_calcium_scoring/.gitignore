@@ -1,0 +1,132 @@
+# NB10 Windows Tool - Git Ignore Rules
+
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# ============================================================
+# NB10 Specific
+# ============================================================
+
+# Model files (large, distribute separately)
+models/*.pth
+models/*.pt
+models/*.onnx
+
+# Offline wheel packages (large, download separately)
+deployment/offline_wheels/*.whl
+deployment/offline_wheels/*.tar.gz
+
+# Data files (user-specific)
+data/dicom_original/
+data/cache/*.json
+!data/cache/.gitkeep
+
+# Output files (generated)
+output/**/*.csv
+output/**/*.png
+output/**/*.jpg
+output/**/*.pdf
+output/**/*.docx
+output/**/*.md
+output/**/*.txt
+output/**/*.json
+output/figures/
+output/reports/
+output/statistical_analysis/
+output/multimodal_analysis/
+output/cpu_performance_tests/
+output/gpu_validation/
+!output/.gitkeep
+!output/README.md
+!output/*_results.csv
+!output/nb10_results_complete.csv
+
+# Resume cache files (v1.1.1+)
+output/.nb10_resume_cache.csv
+**/.nb10_resume_cache.csv
+
+# Logs (generated)
+logs/*.log
+logs/*.txt
+!logs/.gitkeep
+!logs/README.md
+
+# User configuration (contains paths)
+config/config.yaml
+!config/config.yaml.template
+!config/config_normal.yaml
+
+# Test configurations (archived)
+config/*test*.yaml
+config/*validation*.yaml
+config/paths_windows.yaml
+
+# Temporary files
+*.tmp
+*.temp
+~$*
+
+# Cache files
+*.cache
+.cache/
+
+# ============================================================
+# IDE and Editor
+# ============================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ============================================================
+# OS Files
+# ============================================================
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ============================================================
+# Testing
+# ============================================================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ============================================================
+# Exceptions (files to keep)
+# ============================================================
+# Keep example and template files
+!examples/
+!config/*.template
+!config/*.yaml.example
