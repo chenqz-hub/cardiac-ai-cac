@@ -207,7 +207,8 @@ jobs:
       - name: Generate checksums
         run: |
           cd package/cardiac-ai-cac
-          Get-ChildItem -Recurse -File | Get-FileHash -Algorithm SHA256 | Select-Object Hash, Path | Export-Csv -Path SHA256SUMS.csv -NoTypeInformation
+          $hashes = Get-ChildItem -Recurse -File | Get-FileHash -Algorithm SHA256 | Select-Object Hash, Path
+          $hashes | Export-Csv -Path SHA256SUMS.csv -NoTypeInformation
 
       - name: Compress package
         run: |
