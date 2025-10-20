@@ -82,34 +82,6 @@ jobs:
           mkdir -p package/cardiac-ai-cac/models
           if [ -f models/va_non_gated_ai_cac_model.pth ]; then
             cp models/va_non_gated_ai_cac_model.pth package/cardiac-ai-cac/models/
-          else
-            # Create README for manual model download
-            cat > package/cardiac-ai-cac/models/DOWNLOAD_MODEL.md << 'MODEL_EOF'
-# AI Model Download Instructions
-
-The AI-CAC model file was not included in this package.
-
-## Manual Download Required
-
-Please download the model manually from Google Drive:
-- Google Drive: https://drive.google.com/file/d/1uD12kphnWlJ5R6K-mDQnxS8LjYhPGSfm/view
-- File size: ~1.2GB (1,181 MB)
-- Filename: va_non_gated_ai_cac_model.pth
-
-## Installation Steps
-
-1. Download the model file from the link above
-2. Place it in this directory: `models/va_non_gated_ai_cac_model.pth`
-3. Verify the file is named exactly: `va_non_gated_ai_cac_model.pth`
-
-## Alternative: Use gdown
-
-If you have gdown installed:
-```bash
-pip install gdown
-gdown 1uD12kphnWlJ5R6K-mDQnxS8LjYhPGSfm -O models/va_non_gated_ai_cac_model.pth
-```
-MODEL_EOF
           fi
 
           # Copy documentation
@@ -119,6 +91,17 @@ MODEL_EOF
           # Copy requirements
           mkdir -p package/cardiac-ai-cac/requirements
           cp requirements/*.txt package/cardiac-ai-cac/requirements/
+
+      - name: Create model download instructions
+        if: env.MODEL_INCLUDED == 'false'
+        run: |
+          cat > package/cardiac-ai-cac/models/DOWNLOAD_MODEL.txt << 'EOF'
+          Please download the AI-CAC model file manually.
+
+          Google Drive: https://drive.google.com/file/d/1uD12kphnWlJ5R6K-mDQnxS8LjYhPGSfm/view
+          File size: ~1.2GB
+          Place the file at: models/va_non_gated_ai_cac_model.pth
+          EOF
 
       - name: Create installation scripts
         run: |

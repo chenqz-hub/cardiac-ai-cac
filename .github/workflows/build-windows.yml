@@ -83,34 +83,6 @@ jobs:
           New-Item -ItemType Directory -Force -Path package/cardiac-ai-cac/models
           if (Test-Path models/va_non_gated_ai_cac_model.pth) {
             Copy-Item models/va_non_gated_ai_cac_model.pth package/cardiac-ai-cac/models/
-          } else {
-            # Create README for manual model download
-            @"
-# AI Model Download Instructions
-
-The AI-CAC model file was not included in this package.
-
-## Manual Download Required
-
-Please download the model manually from Google Drive:
-- Google Drive: https://drive.google.com/file/d/1uD12kphnWlJ5R6K-mDQnxS8LjYhPGSfm/view
-- File size: ~1.2GB (1,181 MB)
-- Filename: va_non_gated_ai_cac_model.pth
-
-## Installation Steps
-
-1. Download the model file from the link above
-2. Place it in this directory: `models/va_non_gated_ai_cac_model.pth`
-3. Verify the file is named exactly: `va_non_gated_ai_cac_model.pth`
-
-## Alternative: Use gdown
-
-If you have gdown installed:
-``````
-pip install gdown
-gdown 1uD12kphnWlJ5R6K-mDQnxS8LjYhPGSfm -O models/va_non_gated_ai_cac_model.pth
-``````
-"@ | Out-File -FilePath package/cardiac-ai-cac/models/DOWNLOAD_MODEL.md
           }
 
           # Copy documentation
@@ -122,6 +94,19 @@ gdown 1uD12kphnWlJ5R6K-mDQnxS8LjYhPGSfm -O models/va_non_gated_ai_cac_model.pth
           # Copy requirements
           New-Item -ItemType Directory -Force -Path package/cardiac-ai-cac/requirements
           Copy-Item requirements/*.txt package/cardiac-ai-cac/requirements/
+
+      - name: Create model download instructions
+        if: env.MODEL_INCLUDED == 'false'
+        run: |
+          $content = @"
+          Please download the AI-CAC model file manually.
+
+          Google Drive: https://drive.google.com/file/d/1uD12kphnWlJ5R6K-mDQnxS8LjYhPGSfm/view
+          File size: ~1.2GB
+          Place the file at: models/va_non_gated_ai_cac_model.pth
+          "@
+
+          Set-Content -Path package/cardiac-ai-cac/models/DOWNLOAD_MODEL.txt -Value $content
 
       - name: Create installation scripts
         run: |
