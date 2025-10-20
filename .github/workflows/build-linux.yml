@@ -72,8 +72,9 @@ jobs:
         run: |
           mkdir -p package/cardiac-ai-cac
 
-          # Copy source code
+          # Copy source code (exclude symlinks to external dependencies)
           cp -r src/* package/cardiac-ai-cac/
+          rm -f package/cardiac-ai-cac/cardiac_calcium_scoring/external/AI-CAC
 
           # Copy dependencies
           cp -r wheels package/cardiac-ai-cac/dependencies

@@ -73,8 +73,8 @@ jobs:
         run: |
           New-Item -ItemType Directory -Force -Path package/cardiac-ai-cac
 
-          # Copy source code
-          Copy-Item -Recurse src/* package/cardiac-ai-cac/
+          # Copy source code (exclude symlinks)
+          Copy-Item -Recurse src/* package/cardiac-ai-cac/ -Exclude "AI-CAC"
 
           # Copy dependencies
           Copy-Item -Recurse wheels package/cardiac-ai-cac/dependencies
